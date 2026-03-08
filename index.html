@@ -1,133 +1,332 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pagar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Mavi 3D | Pagos</title>
+  <meta name="theme-color" content="#7aa2ff" />
+  <style>
+    :root{
+      --bg1:#eef4ff;
+      --bg2:#ffeef8;
+      --card:#ffffff;
+      --text:#1f2a44;
+      --muted:#6f7c99;
+      --primary:#7aa2ff;
+      --primary-dark:#5e86ea;
+      --accent:#ff9bc2;
+      --success:#18a957;
+      --shadow:0 12px 30px rgba(94,134,234,.16);
+      --radius:22px;
+    }
 
-<style>
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0}
+    body{
+      min-height:100vh;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, #ffffff 0%, #f8fbff 28%, transparent 45%),
+        linear-gradient(160deg,var(--bg1),var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
 
-body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-background:#f2f2f2;
-margin:0;
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-}
+    .wrap{
+      width:100%;
+      max-width:460px;
+    }
 
-.container{
-background:white;
-padding:30px;
-border-radius:18px;
-box-shadow:0 15px 35px rgba(0,0,0,0.1);
-max-width:420px;
-width:92%;
-text-align:center;
-}
+    .card{
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(122,162,255,.14);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px 18px 18px;
+    }
 
-h1{
-margin-top:0;
-font-size:28px;
-}
+    .brand{
+      text-align:center;
+      margin-bottom:18px;
+    }
 
-.subtitle{
-color:#555;
-margin-bottom:20px;
-}
+    .brand h1{
+      margin:0;
+      font-size:2rem;
+      line-height:1.1;
+      letter-spacing:.2px;
+      color:#35508d;
+    }
 
-.numero{
-font-size:24px;
-font-weight:bold;
-margin:12px 0;
-word-break:break-all;
-}
+    .brand p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:.98rem;
+    }
 
-button{
-width:100%;
-padding:20px;
-font-size:22px;
-border:none;
-border-radius:14px;
-margin-top:12px;
-cursor:pointer;
-}
+    .section{
+      background:#fff;
+      border:1px solid rgba(122,162,255,.12);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:14px;
+    }
 
-.tarjeta{
-background:#009ee3;
-color:white;
-}
+    .label{
+      font-size:.88rem;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:600;
+    }
 
-.clabe{
-background:#00a650;
-color:white;
-}
+    .value{
+      width:100%;
+      border:none;
+      background:#f8faff;
+      color:var(--text);
+      font-size:1.12rem;
+      line-height:1.35;
+      font-weight:700;
+      letter-spacing:.4px;
+      padding:14px 12px;
+      border-radius:14px;
+      outline:none;
+      user-select:all;
+      -webkit-user-select:all;
+    }
 
-.app{
-background:#333;
-color:white;
-}
+    .value.small{
+      font-size:1.02rem;
+      letter-spacing:.3px;
+    }
 
-button:active{
-transform:scale(.97);
-}
+    .sub{
+      margin-top:8px;
+      font-size:.86rem;
+      color:var(--muted);
+    }
 
-.msg{
-margin-top:15px;
-font-size:16px;
-}
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:16px;
+      padding:16px 14px;
+      font-size:1rem;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:10px;
+      transition:transform .06s ease, opacity .2s ease, background .2s ease;
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+    }
 
-</style>
+    .btn:active{transform:scale(.985)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+      color:#fff;
+    }
+
+    .btn-accent{
+      background:linear-gradient(135deg,var(--accent),#ff7db1);
+      color:#fff;
+    }
+
+    .btn-light{
+      background:#f3f7ff;
+      color:#35508d;
+      border:1px solid rgba(122,162,255,.22);
+      box-shadow:none;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.83rem;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%) translateY(20px);
+      background:#17356d;
+      color:#fff;
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:.95rem;
+      opacity:0;
+      pointer-events:none;
+      transition:all .22s ease;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+      z-index:30;
+      max-width:calc(100vw - 28px);
+      text-align:center;
+      white-space:nowrap;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .mini{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    @media (min-width:430px){
+      .mini{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <main class="wrap">
+    <section class="card">
+      <div class="brand">
+        <h1>Mavi 3D</h1>
+        <p>Toca un botón para copiar</p>
+      </div>
 
-<div class="container">
+      <div class="section">
+        <div class="label">Número de tarjeta</div>
+        <input
+          id="tarjeta"
+          class="value"
+          type="text"
+          readonly
+          value="5428 7808 7489 6921"
+          aria-label="Número de tarjeta"
+          onclick="selectField(this)"
+        />
+        <div class="sub">Titular: Griselda Mandujano Villasana</div>
+        <button class="btn btn-primary" onclick="copyCard()">Copiar número de tarjeta</button>
+      </div>
 
-<h1>Pagar rápido</h1>
-<div class="subtitle">Toca un botón para copiar</div>
+      <div class="section">
+        <div class="label">CLABE</div>
+        <input
+          id="clabe"
+          class="value small"
+          type="text"
+          readonly
+          value="722969010583212737"
+          aria-label="CLABE"
+          onclick="selectField(this)"
+        />
+        <div class="sub">Banco: Mercado Pago</div>
+        <button class="btn btn-primary" onclick="copyClabe()">Copiar CLABE</button>
+      </div>
 
-<div class="numero" id="tarjeta">5428780874896921</div>
-<button class="tarjeta" onclick="copiar('tarjeta')">
-Copiar número de tarjeta
-</button>
+      <div class="mini">
+        <button class="btn btn-accent" onclick="openBankApp()">Abrir app bancaria</button>
+        <button class="btn btn-light" onclick="sendWhatsApp()">Enviar comprobante</button>
+      </div>
 
-<div class="numero" id="clabe">722969010583212737</div>
-<button class="clabe" onclick="copiar('clabe')">
-Copiar CLABE
-</button>
+      <div class="footer">
+        Pago rápido para NFC • Optimizado para móvil
+      </div>
+    </section>
+  </main>
 
-<button class="app" onclick="abrirApp()">
-Abrir app bancaria
-</button>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<div class="msg" id="msg"></div>
+  <script>
+    const rawCard = "5428780874896921";
+    const rawClabe = "722969010583212737";
+    const whatsappNumber = "528147899927";
+    const whatsappMessage = "Hola te envio mi comprobante";
 
-</div>
+    function showToast(message){
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1800);
+    }
 
-<script>
+    function vibrate(){
+      if ("vibrate" in navigator) {
+        navigator.vibrate(60);
+      }
+    }
 
-async function copiar(id){
+    function selectField(el){
+      el.focus();
+      el.select();
+      el.setSelectionRange(0, el.value.length);
+    }
 
-let texto=document.getElementById(id).innerText
+    async function copyText(text, okMessage){
+      try{
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          fallbackCopy(text);
+        }
+        vibrate();
+        showToast("✔ " + okMessage);
+      }catch(error){
+        try{
+          fallbackCopy(text);
+          vibrate();
+          showToast("✔ " + okMessage);
+        }catch(err){
+          showToast("No se pudo copiar");
+        }
+      }
+    }
 
-try{
-await navigator.clipboard.writeText(texto)
-document.getElementById("msg").innerText="Número copiado ✔"
-}
+    function fallbackCopy(text){
+      const temp = document.createElement("textarea");
+      temp.value = text;
+      temp.setAttribute("readonly","");
+      temp.style.position = "fixed";
+      temp.style.opacity = "0";
+      temp.style.left = "-9999px";
+      document.body.appendChild(temp);
+      temp.focus();
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+    }
 
-catch{
-document.getElementById("msg").innerText="Mantén presionado el número para copiar"
-}
+    function copyCard(){
+      copyText(rawCard, "Número de tarjeta copiado");
+    }
 
-}
+    function copyClabe(){
+      copyText(rawClabe, "CLABE copiada");
+    }
 
-function abrirApp(){
-window.location.href="mercadopago://"
-}
+    function openBankApp(){
+      const fallback = "https://www.mercadopago.com.mx/";
+      const appScheme = "mercadopago://";
 
-</script>
+      const start = Date.now();
+      window.location.href = appScheme;
 
+      setTimeout(() => {
+        if (Date.now() - start < 1700) {
+          window.location.href = fallback;
+        }
+      }, 900);
+    }
+
+    function sendWhatsApp(){
+      const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(whatsappMessage);
+      window.open(url, "_blank");
+    }
+  </script>
 </body>
 </html>
