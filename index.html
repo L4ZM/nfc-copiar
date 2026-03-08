@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagar</title>
+
+<style>
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
+background:#f2f2f2;
+margin:0;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:18px;
+box-shadow:0 15px 35px rgba(0,0,0,0.1);
+max-width:420px;
+width:92%;
+text-align:center;
+}
+
+h1{
+margin-top:0;
+font-size:28px;
+}
+
+.subtitle{
+color:#555;
+margin-bottom:20px;
+}
+
+.numero{
+font-size:24px;
+font-weight:bold;
+margin:12px 0;
+word-break:break-all;
+}
+
+button{
+width:100%;
+padding:20px;
+font-size:22px;
+border:none;
+border-radius:14px;
+margin-top:12px;
+cursor:pointer;
+}
+
+.tarjeta{
+background:#009ee3;
+color:white;
+}
+
+.clabe{
+background:#00a650;
+color:white;
+}
+
+.app{
+background:#333;
+color:white;
+}
+
+button:active{
+transform:scale(.97);
+}
+
+.msg{
+margin-top:15px;
+font-size:16px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Pagar rápido</h1>
+<div class="subtitle">Toca un botón para copiar</div>
+
+<div class="numero" id="tarjeta">5428780874896921</div>
+<button class="tarjeta" onclick="copiar('tarjeta')">
+Copiar número de tarjeta
+</button>
+
+<div class="numero" id="clabe">722969010583212737</div>
+<button class="clabe" onclick="copiar('clabe')">
+Copiar CLABE
+</button>
+
+<button class="app" onclick="abrirApp()">
+Abrir app bancaria
+</button>
+
+<div class="msg" id="msg"></div>
+
+</div>
+
+<script>
+
+async function copiar(id){
+
+let texto=document.getElementById(id).innerText
+
+try{
+await navigator.clipboard.writeText(texto)
+document.getElementById("msg").innerText="Número copiado ✔"
+}
+
+catch{
+document.getElementById("msg").innerText="Mantén presionado el número para copiar"
+}
+
+}
+
+function abrirApp(){
+window.location.href="mercadopago://"
+}
+
+</script>
+
+</body>
+</html>
