@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#6c2cff">
+  <meta name="description" content="Datos para transferencia Spin de Emilio López Tec">
+  <title>Pago Spin | Emilio López Tec</title>
+  <style>
+    :root{--spin:#6c2cff;--spin-dark:#4b16c7;--accent:#b8ff28;--bg:#f5f1ff;--card:#fff;--text:#241b38;--muted:#716984;--line:#e6dcff;--shadow:0 18px 45px rgba(75,22,199,.17)}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%}
+    body{min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top right,rgba(184,255,40,.28),transparent 34%),linear-gradient(150deg,#efe8ff,var(--bg));display:flex;align-items:center;justify-content:center;padding:18px}
+    .wrap{width:100%;max-width:460px}
+    .card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:24px 18px 18px}
+    .brand{text-align:center;margin-bottom:20px}
+    .logo{display:inline-flex;align-items:center;justify-content:center;min-width:108px;height:52px;padding:0 20px;border-radius:18px;background:linear-gradient(135deg,var(--spin),var(--spin-dark));color:#fff;font-size:1.75rem;font-weight:900;letter-spacing:-1px;box-shadow:0 10px 24px rgba(108,44,255,.25)}
+    .brand h1{margin:15px 0 5px;font-size:1.42rem}
+    .brand p{margin:0;color:var(--muted);font-size:.95rem}
+    .section{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
+    .label{color:var(--muted);font-size:.84rem;font-weight:700;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
+    .value{width:100%;border:0;outline:0;border-radius:13px;background:#f8f6ff;color:var(--text);padding:14px 10px;font-size:1.07rem;line-height:1.35;font-weight:800;letter-spacing:.35px;text-align:center;user-select:all;-webkit-user-select:all}
+    .sub{margin:9px 2px 0;color:var(--muted);font-size:.88rem}
+    .btn{width:100%;border:0;border-radius:15px;padding:15px 12px;margin-top:10px;background:linear-gradient(135deg,var(--spin),var(--spin-dark));color:#fff;font-size:1rem;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(108,44,255,.2);transition:transform .08s ease,filter .2s ease}
+    .btn:active{transform:scale(.985)}.btn:hover{filter:brightness(1.04)}
+    .note{background:#f3ffe0;color:#395600;border:1px solid #d8f7a0;border-radius:14px;padding:11px 12px;font-size:.86rem;text-align:center;margin-top:4px}
+    .footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:14px}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(18px);max-width:calc(100vw - 30px);padding:12px 17px;border-radius:999px;background:#241b38;color:#fff;font-weight:750;text-align:center;opacity:0;pointer-events:none;transition:.22s ease;box-shadow:0 10px 25px rgba(0,0,0,.2);white-space:nowrap}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <header class="brand">
+        <div class="logo">Spin</div>
+        <h1>Emilio López Tec</h1>
+        <p>Toca un botón para copiar los datos</p>
+      </header>
+      <section class="section">
+        <div class="label">Número de tarjeta</div>
+        <input class="value" type="text" readonly value="4217 4700 7551 0319" aria-label="Número de tarjeta" onclick="selectField(this)">
+        <div class="sub">Titular: Emilio López Tec</div>
+        <button class="btn" onclick="copyValue('4217470075510319','Número de tarjeta copiado')">Copiar número de tarjeta</button>
+      </section>
+      <section class="section">
+        <div class="label">CLABE</div>
+        <input class="value" type="text" readonly value="728969000142702993" aria-label="CLABE" onclick="selectField(this)">
+        <div class="sub">Institución: Spin</div>
+        <button class="btn" onclick="copyValue('728969000142702993','CLABE copiada')">Copiar CLABE</button>
+      </section>
+      <div class="note">Verifica que el titular sea Emilio López Tec antes de transferir.</div>
+      <div class="footer">Pago rápido mediante NFC • Optimizado para móvil</div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script>
+    function selectField(el){el.focus();el.select();el.setSelectionRange(0,el.value.length)}
+    function showToast(message){const toast=document.getElementById("toast");toast.textContent="✓ "+message;toast.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove("show"),1800)}
+    function fallbackCopy(text){const area=document.createElement("textarea");area.value=text;area.setAttribute("readonly","");area.style.position="fixed";area.style.opacity="0";document.body.appendChild(area);area.select();document.execCommand("copy");document.body.removeChild(area)}
+    async function copyValue(text,message){try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text)}else{fallbackCopy(text)}if("vibrate" in navigator)navigator.vibrate(60);showToast(message)}catch(error){try{fallbackCopy(text);showToast(message)}catch(copyError){showToast("No se pudo copiar")}}}
+  </script>
+</body>
+</html>
